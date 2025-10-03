@@ -4,41 +4,49 @@ date: "2025-10-02"
 draft: false
 ---
 
-## A Unified Web-Based Solution for Suspicious File and URL Analysis
+## Unified Web Platform for Suspicious File and URL Analysis
 
 ### 1. Executive Summary
-The Malware Analysis & Threat Intelligence Platform is designed for a university research group in Ho Chi Minh City to enhance malware detection and threat intelligence sharing. It enables users to upload suspicious files, domains, IP addresses, and URLs for automated analysis. Inspired by VirusTotal, the platform integrates multiple scanning engines and open-source intelligence (OSINT) feeds, while operating on a smaller scale for academic and research purposes. The system supports 10–15 active researchers, providing real-time detection, collaborative sharing, and secure access via role-based authentication.
+The Malware Analysis & Threat Intelligence Platform was developed for a research group at a university in Ho Chi Minh City, with the goal of enhancing malware detection and sharing cyber threat intelligence. The platform allows users to upload suspicious files, domains, IP addresses, and URLs for automated analysis. Inspired by VirusTotal, the system integrates multiple scanning tools and open-source intelligence (OSINT) feeds, but is deployed at a smaller scale to better suit academic and research purposes.  
+
+The system is designed to support 10–15 regular researchers, providing real-time detection, result sharing, and secure access with role-based permissions.
 
 ### 2. Problem Statement
-#### What’s the Problem?
-Traditional malware analysis requires multiple isolated tools, manual correlation, and lacks centralized results. Existing commercial services like VirusTotal are powerful but limited by privacy concerns, access restrictions, or high subscription costs. This creates difficulties for researchers and students who need a controlled platform for hands-on security experiments.
+#### The Challenge
+Traditional malware analysis methods often rely on separate tools, require manual effort, and lack centralized result aggregation. Meanwhile, commercial services such as VirusTotal, although powerful, face limitations related to privacy, restricted access, or high cost. This creates obstacles for students and researchers who need a controlled environment to conduct experiments and study cybersecurity.  
 
 #### The Solution
-The platform provides a unified web interface where users can:
-- Upload suspicious files (executables, scripts, documents).
-- Submit domains, IPs, and URLs for analysis.
-- Automatically scan inputs against integrated antivirus engines, sandbox environments, and OSINT feeds.
-- Correlate results with threat intelligence sources for better detection accuracy.
-- Share anonymized results with the research community for collaborative defense.
+This platform provides a centralized web interface where users can:
+- Upload suspicious files (executables, scripts, office documents).  
+- Submit domains, IP addresses, or URLs for analysis.  
+- Automatically scan data with multiple antivirus engines, sandbox environments, and OSINT sources.  
+- Correlate results with threat intelligence feeds to improve detection accuracy.  
+- Share anonymized reports with the research community to foster collaboration.  
 
-The backend leverages **serverless and container-based services**:
-- **File ingestion** via API Gateway and serverless storage (Amazon S3).
-- **Analysis engines** orchestrated with AWS Lambda and ECS Fargate for sandboxing and signature scans.
-- **Threat intelligence feeds** integrated through AWS Glue jobs and DynamoDB.
-- **Web interface** built with Next.js and AWS Amplify for responsive dashboards.
-- **Secure authentication** through Amazon Cognito to control access by research members.
+Analysis requests are processed in two different ways:  
 
-#### Benefits and Return on Investment
-The platform serves as a **cybersecurity learning and research tool**, allowing lab members to experiment with malware detection pipelines and enrich their knowledge of threat intelligence. It simplifies workflows by centralizing multiple analysis tools in one place, reducing manual effort and increasing reliability.
+1. **Fast Query (Query Service):**  
+   - If the file/URL has already been analyzed, the Web Server sends its hash to the Query Service.  
+   - The Query Service checks DynamoDB for existing results.  
+   - If found, results are instantly returned to the user via the web interface.  
 
-**Key benefits include:**
-- Hands-on experience for students and researchers in malware analysis.
-- Faster detection of suspicious content through real-time scanning.
-- A foundation for future integration with AI-based detection models.
-- Collaboration opportunities by securely sharing anonymized reports.
-- Cost efficiency using AWS serverless pricing (estimated <$10/month).
+2. **New Processing (Processing Service):**  
+   - If the data is not yet available, the system forwards the raw file/URL to the Processing Service.  
+   - The Processing Service performs in-depth analysis, scanning, and report generation.  
+   - Results are sent back to the Web Server for user delivery and simultaneously stored in DynamoDB for future queries.  
 
-By minimizing manual analysis steps and consolidating data, the platform achieves a break-even period of 6–12 months through reduced operational effort, while providing long-term academic and research value.
+This hybrid approach reduces response times for repeated requests while ensuring scalability for new analyses.  
+
+#### Benefits & ROI
+The platform serves as a **practical tool for cybersecurity education and research**, enabling students and researchers to experience real-world malware detection workflows while broadening their understanding of threat intelligence. By consolidating multiple tools into a single system, the platform minimizes manual steps and improves both accuracy and reliability.  
+
+**Key Benefits:**  
+- Provides hands-on learning opportunities for students and researchers.  
+- Accelerates detection with real-time automated scanning.  
+- Lays the groundwork for future integration of AI-driven detection models.  
+- Supports safe and anonymized report sharing to strengthen collaboration.  
+
+By streamlining processes and unifying data, the platform is expected to achieve ROI within 6–12 months while delivering long-term value to both research and education.  
 
 ### 3. Solution Architecture
 
@@ -50,18 +58,37 @@ By minimizing manual analysis steps and consolidating data, the platform achieve
   <iframe src="/high-level-view.drawio.html" width="800" height="1100" style="border:none;"></iframe>
 </div>
 
+- **Web App Layer (UI):**  
+  Users access the system through the ALB, which distributes requests to EC2 instances in the Auto Scaling Group. This layer handles the interface and request intake.  
+
+- **Services Layer:**  
+  Includes the **Query Service** and **Processing Service**, both deployed in Auto Scaling Groups within private subnets.  
+  - **Query Service:** Connects to DynamoDB to handle hash-based queries.  
+  - **Processing Service:** Receives raw data, performs malware analysis, generates reports, and stores results in DynamoDB.  
+
+- **Data Layer:**  
+  **Amazon DynamoDB** stores two categories of data:  
+  - **View:** Analysis results ready for user consumption.  
+  - **Event Store:** Logs and raw data for deeper investigations.  
+
+- **Scalability:**  
+  Both the Web App and Services layers use Auto Scaling Groups to ensure the system can handle high request volumes without compromising performance.  
+
 #### AWS Services Used
-- Elastic Load Balancer (ALB)
-- Amazon EC2
-- Auto Scaling Group
-- Amazon DynamoDB
+The system leverages the following key AWS services:  
 
-### 5. Timeline & Milestones
-#### Project Timeline
+- **Amazon VPC (Virtual Private Cloud):** Creates an isolated virtual network, divided into multiple subnets (10.0.100.0/24, 10.0.101.0/24, 10.0.102.0/24, 10.0.103.0/24) across Availability Zones for high availability.  
+- **Elastic Load Balancer (ALB):** Distributes incoming traffic to Web App (UI) instances running on EC2.  
+- **Amazon EC2:** Hosts the Web App and backend services.  
+- **Auto Scaling Group:** Dynamically scales the number of EC2 instances to maintain performance and cost efficiency.  
+- **Amazon DynamoDB:** A NoSQL database that stores analysis reports, query results, and service synchronization data.  
 
-- Pre-Internship (Month 0): 1 month for planning and old station review.
-- Internship (Months 1-3): 3 months.
-    - Month 1: Study AWS and upgrade hardware.
-    - Month 2: Design and adjust architecture.
-    - Month 3: Implement, test, and launch.
-- Post-Launch: Up to 1 year for research.
+### 5. Roadmap & Development Milestones
+
+**Project Plan:**  
+- **Pre-internship (Month 0):** 1 month for planning and assessing the existing infrastructure.  
+- **During internship (Months 1–3):** 3 months in total.  
+  - Month 1: Research AWS and upgrade hardware.  
+  - Month 2: Design and refine the system architecture.  
+  - Month 3: Deploy, test, and launch the system.  
+- **Post-launch:** Continue research and iterative improvements over the next 12 months.  

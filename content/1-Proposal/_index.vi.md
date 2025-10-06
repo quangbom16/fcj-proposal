@@ -1,7 +1,8 @@
 ---
-title: "Nền tảng Phân tích Mã độc & Tình báo Mối đe dọa"
+title: "Bản đề xuất"
 date: "2025-10-02"
 draft: false
+pre: " <b> 1. </b> "
 ---
 
 ## Giải pháp Web hợp nhất cho việc Phân tích Tệp tin và URL đáng ngờ
@@ -91,3 +92,6 @@ Hệ thống sử dụng các dịch vụ AWS chính sau:
   - Tháng 2: Thiết kế và điều chỉnh kiến trúc.  
   - Tháng 3: Triển khai, kiểm thử và đưa hệ thống vào hoạt động.  
 - **Sau khi ra mắt:** Tiếp tục nghiên cứu và cải tiến trong vòng 1 năm.  
+
+### 6. Ước tính ngân sách
+

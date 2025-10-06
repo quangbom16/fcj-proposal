@@ -1,7 +1,8 @@
 ---
-title: "Malware Analysis & Threat Intelligence Platform"
+title: "Proposal"
 date: "2025-10-02"
 draft: false
+pre: " <b> 1. </b> "
 ---
 
 ## Unified Web Platform for Suspicious File and URL Analysis
@@ -92,3 +93,5 @@ The system leverages the following key AWS services:
   - Month 2: Design and refine the system architecture.  
   - Month 3: Deploy, test, and launch the system.  
 - **Post-launch:** Continue research and iterative improvements over the next 12 months.  
+
+### 6. Budget Estimation

@@ -5,16 +5,16 @@ draft: false
 pre: " <b> 1. </b> "
 ---
 
-## Unified Web Platform for Suspicious File and URL Analysis
+## Multi-Platform File Analysis System - VirusTotal Clone
 
-### 1. Executive Summary
-The Malware Analysis & Threat Intelligence Platform was developed for a research group at a university in Ho Chi Minh City, with the goal of enhancing malware detection and sharing cyber threat intelligence. The platform allows users to upload suspicious files, domains, IP addresses, and URLs for automated analysis. Inspired by VirusTotal, the system integrates multiple scanning tools and open-source intelligence (OSINT) feeds, but is deployed at a smaller scale to better suit academic and research purposes.  
+### 1. Project Summary
+This project aims to develop and deploy a multi-platform file analysis system, operating similarly to VirusTotal. The system will allow users to upload suspicious files for scanning and analysis by multiple antivirus engines and various other analysis services. The primary goal is to provide a powerful, user-friendly tool for detecting and assessing potential file-based threats, thereby enhancing cybersecurity.
 
-The system is designed to support 10–15 regular researchers, providing real-time detection, result sharing, and secure access with role-based permissions.
+The system will be entirely built and deployed on the Amazon Web Services (AWS) cloud platform, leveraging AWS's leading managed services, scalability, and security features to ensure high performance, reliability, and availability.
 
 ### 2. Problem Statement
 #### The Challenge
-Traditional malware analysis methods often rely on separate tools, require manual effort, and lack centralized result aggregation. Meanwhile, commercial services such as VirusTotal, although powerful, face limitations related to privacy, restricted access, or high cost. This creates obstacles for students and researchers who need a controlled environment to conduct experiments and study cybersecurity.  
+In an increasingly sophisticated and prevalent cybersecurity threat landscape, the demand for effective file analysis tools is paramount. VirusTotal has proven its value as a critical community service, helping users and cybersecurity professionals quickly identify malicious files. This project is initiated with the desire to create a similar, customizable, and extensible solution, serving research, educational, or specific application purposes.
 
 #### The Solution
 This platform provides a centralized web interface where users can:
@@ -38,26 +38,34 @@ Analysis requests are processed in two different ways:
 
 This hybrid approach reduces response times for repeated requests while ensuring scalability for new analyses.  
 
-#### Benefits & ROI
-The platform serves as a **practical tool for cybersecurity education and research**, enabling students and researchers to experience real-world malware detection workflows while broadening their understanding of threat intelligence. By consolidating multiple tools into a single system, the platform minimizes manual steps and improves both accuracy and reliability.  
-
-**Key Benefits:**  
-- Provides hands-on learning opportunities for students and researchers.  
-- Accelerates detection with real-time automated scanning.  
-- Lays the groundwork for future integration of AI-driven detection models.  
-- Supports safe and anonymized report sharing to strengthen collaboration.  
-
-By streamlining processes and unifying data, the platform is expected to achieve ROI within 6–12 months while delivering long-term value to both research and education.  
+#### Objectives
+- Develop Core Functionality: Build a user interface (UI) that allows file uploads, a query service to check for existing analysis results, and a processing service to perform new file analyses.
+- Multi-Engine Integration: Enable integration with various scanning and analysis tools (e.g., APIs of antivirus engines, static/dynamic analysis sandboxes).
+- AWS Deployment: Design and deploy the system architecture on AWS to ensure high availability, flexible scalability, and robust security.
+- Cost Optimization: Build a cost-effective architecture, leveraging appropriate AWS services for the project's scale.
+- Establish CI/CD Pipeline: Set up a Continuous Integration/Continuous Delivery (CI/CD) pipeline to automate application development and deployment.
 
 ### 3. Solution Architecture
 
-<div style="display: flex; justify-content: center;">
-  <iframe src="/high-level-view-2.drawio.html?v=1" width="900" height="300" style="border:none;"></iframe>
-</div>
+#### Summary
 
-<div style="display: flex; justify-content: center; margin-top:20px;">
-  <iframe src="/high-level-view.drawio.html" width="800" height="1100" style="border:none;"></iframe>
-</div>
+![High Level View 2](/images/high-level-view-2.drawio.png)
+
+
+  1. User sends analysis request for file.
+  2. Web Server sends request to Query Service. (Query using file hash)
+  3. Query Service communicates with Database.
+  4. Database responds to Query Service.
+  5. Query Service responds to Web Server.
+  6. If query successful send HTML response to User.
+  7. If not then send file to Processing Service. (Web Server should hold raw file data)
+  8. Processing Service sends report back to Web Server.
+  9. Also stores report in Database.
+  10. Database syncs.
+
+#### Diagram for AWS
+
+![High Level View](/images/high-level-view.drawio.png)
 
 - **Web App Layer (UI):**  
   Users access the system through the ALB, which distributes requests to EC2 instances in the Auto Scaling Group. This layer handles the interface and request intake.  
@@ -86,12 +94,22 @@ The system leverages the following key AWS services:
 
 ### 5. Roadmap & Development Milestones
 
-**Project Plan:**  
-- **Pre-internship (Month 0):** 1 month for planning and assessing the existing infrastructure.  
+#### Project Plan:
 - **During internship (Months 1–3):** 3 months in total.  
   - Month 1: Research AWS and upgrade hardware.  
   - Month 2: Design and refine the system architecture.  
   - Month 3: Deploy, test, and launch the system.  
-- **Post-launch:** Continue research and iterative improvements over the next 12 months.  
 
 ### 6. Budget Estimation
+#### Infrastructure Costs
+- AWS Services:
+    - EC2 instances:	6 × t4g.nano (6 × 0.0042 × 720h): $18.14
+    - EBS	6 × 20 GB  = 120 GB × $0.10/GB:	$12.00
+    - Load Balancer (ALB)	1 ALB, light traffic:	$15.00
+    - NAT instance	1 × t4g.nano (replacement NAT Gateway):	$3.02
+    - DynamoDB	10 GB, small on-demand:	$5.00
+    - Data transfer OUT	100 GB × $0.09/GB:	$9.00
+    - CloudWatch & misc	Logs + basicmetrics:	$3.00
+
+Total		≈ $69.14 / month
+

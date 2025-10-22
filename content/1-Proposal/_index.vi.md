@@ -5,14 +5,16 @@ draft: false
 pre: " <b> 1. </b> "
 ---
 
-## Giải pháp Web hợp nhất cho việc Phân tích Tệp tin và URL đáng ngờ
+## Hệ thống Phân tích Tệp Đa Nền tảng (Multi-Platform File Analysis System) - Clone VirusTotal
 
-### 1. Tóm tắt điều hành
-Nền tảng Phân tích Mã độc & Tình báo Mối đe dọa được phát triển dành cho một nhóm nghiên cứu tại một trường đại học ở TP. Hồ Chí Minh, với mục tiêu nâng cao khả năng phát hiện mã độc và chia sẻ tình báo an ninh mạng. Nền tảng cho phép người dùng tải lên các tệp tin, tên miền, địa chỉ IP và URL nghi ngờ để phân tích tự động. Lấy cảm hứng từ VirusTotal, hệ thống tích hợp nhiều công cụ quét và nguồn tình báo mã nguồn mở (OSINT), nhưng được triển khai ở quy mô nhỏ hơn, phù hợp cho hoạt động học tập và nghiên cứu. Hệ thống được thiết kế để phục vụ 10–15 nhà nghiên cứu thường xuyên, cung cấp khả năng phát hiện thời gian thực, chia sẻ kết quả và truy cập an toàn dựa trên phân quyền.
+### 1. Tóm tắt dự án
+Dự án này nhằm mục đích phát triển và triển khai một hệ thống phân tích tệp đa nền tảng, hoạt động tương tự như VirusTotal. Hệ thống sẽ cho phép người dùng tải lên các tệp đáng ngờ để được quét và phân tích bởi nhiều công cụ chống phần mềm độc hại (antivirus engines) và dịch vụ phân tích khác nhau. Mục tiêu chính là cung cấp một công cụ mạnh mẽ, dễ sử dụng để phát hiện và đánh giá các mối đe dọa tiềm ẩn từ tệp, góp phần nâng cao an ninh mạng.
+
+Hệ thống sẽ được xây dựng và triển khai hoàn toàn trên nền tảng điện toán đám mây Amazon Web Services (AWS), tận dụng các dịch vụ quản lý, khả năng mở rộng và bảo mật hàng đầu của AWS để đảm bảo hiệu suất, độ tin cậy và tính sẵn sàng cao.
 
 ### 2. Vấn đề đặt ra
 #### Vấn đề
-Các phương pháp phân tích mã độc truyền thống thường đòi hỏi nhiều công cụ rời rạc, phải thực hiện thủ công và thiếu tính tập trung trong việc tổng hợp kết quả. Trong khi đó, các dịch vụ thương mại như VirusTotal tuy mạnh mẽ nhưng lại vướng phải các hạn chế về quyền riêng tư, giới hạn truy cập hoặc chi phí cao. Điều này gây khó khăn cho sinh viên và nhà nghiên cứu khi cần một môi trường được kiểm soát để tiến hành thí nghiệm và học tập về an ninh mạng.
+Trong bối cảnh các mối đe dọa an ninh mạng ngày càng tinh vi và phổ biến, nhu cầu về các công cụ phân tích tệp hiệu quả là vô cùng cấp thiết. VirusTotal đã chứng minh được giá trị của mình như một dịch vụ cộng đồng quan trọng, giúp người dùng và các chuyên gia an ninh mạng nhanh chóng xác định các tệp độc hại. Dự án này ra đời với mong muốn tạo ra một giải pháp tương tự, có thể tùy chỉnh và mở rộng, phục vụ cho các mục đích nghiên cứu, giáo dục hoặc ứng dụng cụ thể.
 
 #### Giải pháp
 Nền tảng này mang lại một giao diện web tập trung, nơi người dùng có thể:
@@ -36,26 +38,32 @@ Người dùng gửi yêu cầu phân tích tệp tin hoặc URL qua giao diện
 
 Cách tiếp cận này giúp giảm thời gian phản hồi cho các yêu cầu lặp lại, đồng thời đảm bảo khả năng mở rộng khi có nhiều yêu cầu xử lý mới.  
 
-#### Lợi ích và Hiệu quả đầu tư
-Nền tảng này là một **công cụ phục vụ giảng dạy và nghiên cứu an ninh mạng**, giúp sinh viên và nhà nghiên cứu thực hành trực tiếp với quy trình phát hiện mã độc, đồng thời mở rộng hiểu biết về tình báo mối đe dọa. Việc tập trung hóa nhiều công cụ trong một hệ thống duy nhất vừa giảm thiểu thao tác thủ công, vừa nâng cao độ chính xác và tính ổn định.
+#### Mục tiêu
+- Phát triển chức năng cốt lõi: Xây dựng giao diện người dùng (UI) cho phép tải tệp lên, một dịch vụ truy vấn để kiểm tra kết quả phân tích đã có, và một dịch vụ xử lý để thực hiện phân tích tệp mới.
+- Tích hợp đa công cụ: Khả năng tích hợp với nhiều công cụ quét và phân tích khác nhau (ví dụ: các API của các công cụ antivirus, sandbox phân tích tĩnh/động).
+- Triển khai trên AWS: Thiết kế và triển khai kiến trúc hệ thống trên AWS để đảm bảo tính sẵn sàng cao, khả năng mở rộng linh hoạt và bảo mật mạnh mẽ.
+- Tối ưu hóa chi phí: Xây dựng một kiến trúc hiệu quả về chi phí, tận dụng các dịch vụ AWS phù hợp với quy mô dự án.
+- Xây dựng quy trình CI/CD: Thiết lập quy trình Tích hợp liên tục/Triển khai liên tục (CI/CD) để tự động hóa việc phát triển và triển khai ứng dụng.
 
-**Lợi ích nổi bật:**
-- Cung cấp môi trường thực hành trực tiếp cho sinh viên và nhà nghiên cứu.  
-- Rút ngắn thời gian phát hiện nhờ quét tự động theo thời gian thực.  
-- Tạo nền tảng để tích hợp các mô hình phát hiện dựa trên AI trong tương lai.  
-- Hỗ trợ chia sẻ báo cáo an toàn và ẩn danh, thúc đẩy hợp tác nghiên cứu.  
+### 3. Kiến trúc hệ thống
+#### Tổng quan
 
-Nhờ giảm thiểu các bước thủ công và hợp nhất dữ liệu, hệ thống có thể hoàn vốn sau 6–12 tháng, đồng thời tạo ra giá trị lâu dài cho hoạt động nghiên cứu và giảng dạy.
+![High Level View 2](/images/high-level-view-2.drawio.png)
 
-### 3. Kiến trúc giải pháp
+1. Người dùng gửi yêu cầu phân tích tệp.
+2. Máy chủ Web (Web Server) gửi yêu cầu đến Dịch vụ Truy vấn (Query Service). (Truy vấn bằng cách sử dụng mã băm - hash của tệp)
+3. Dịch vụ Truy vấn giao tiếp với Cơ sở dữ liệu (Database).
+4. Cơ sở dữ liệu phản hồi lại Dịch vụ Truy vấn.
+5. Dịch vụ Truy vấn phản hồi lại Máy chủ Web.
+6. Nếu truy vấn thành công, gửi phản hồi HTML cho Người dùng.
+7. Nếu không thành công, thì gửi tệp đến Dịch vụ Xử lý (Processing Service). (Máy chủ Web nên giữ dữ liệu tệp thô)
+8. Dịch vụ Xử lý gửi báo cáo trở lại Máy chủ Web.
+9. Đồng thời lưu trữ báo cáo vào Cơ sở dữ liệu.
+10. Cơ sở dữ liệu đồng bộ hóa.
 
-<div style="display: flex; justify-content: center;">
-  <iframe src="/high-level-view-2.drawio.html?v=1" width="900" height="300" style="border:none;"></iframe>
-</div>
+#### Sơ đồ AWS
 
-<div style="display: flex; justify-content: center; margin-top:20px;">
-  <iframe src="/high-level-view.drawio.html" width="800" height="1100" style="border:none;"></iframe>
-</div>
+![High Level View](/images/high-level-view.drawio.png)
 
 - **Tầng Web App (UI):**  
   Người dùng truy cập qua ALB, yêu cầu được phân phối đến các EC2 trong Auto Scaling Group. Tầng này chịu trách nhiệm giao diện và tiếp nhận request.  
@@ -85,13 +93,24 @@ Hệ thống sử dụng các dịch vụ AWS chính sau:
 
 ### 5. Lộ trình & Mốc phát triển
 
-**Kế hoạch dự án**
-- **Trước kỳ thực tập (Tháng 0):** 1 tháng cho việc lên kế hoạch và đánh giá hạ tầng cũ.  
+#### Kế hoạch dự án
+
 - **Trong kỳ thực tập (Tháng 1–3):** 3 tháng.  
-  - Tháng 1: Nghiên cứu AWS và nâng cấp phần cứng.  
+  - Tháng 1: Nghiên cứu AWS và thử nghiệm 
   - Tháng 2: Thiết kế và điều chỉnh kiến trúc.  
   - Tháng 3: Triển khai, kiểm thử và đưa hệ thống vào hoạt động.  
-- **Sau khi ra mắt:** Tiếp tục nghiên cứu và cải tiến trong vòng 1 năm.  
 
 ### 6. Ước tính ngân sách
 
+- Dịch vụ AWS:
+
+  - EC2 instances: 6 × t4g.nano (6 × 0.0042 × 720h): $18.14
+  - EBS: 6 × 20 GB = 120 GB × $0.10/GB: $12.00
+  - Load Balancer (ALB): 1 ALB, lưu lượng nhẹ: $15.00
+  - NAT instance: 1 × t4g.nano (thay thế NAT Gateway): $3.02
+  - DynamoDB: 10 GB, on-demand nhỏ: $5.00
+  - Data transfer OUT: 100 GB × $0.09/GB: $9.00
+  - CloudWatch & misc: Nhật ký (logs) + chỉ số cơ bản (basic metrics): $3.00
+
+
+Tổng cộng: ≈ $69.14 / tháng

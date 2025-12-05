@@ -48,7 +48,7 @@ Cách tiếp cận này giúp giảm thời gian phản hồi cho các yêu cầ
 ### 3. Kiến trúc hệ thống
 #### Tổng quan
 
-![High Level View 2](/images/high-level-view-2-finalOfFinal.drawio.png)
+![High Level View 2](/images/high-level-view-2.drawio.png)
 
 1. Người dùng gửi yêu cầu phân tích tệp.
 2. Máy chủ Web (Web Server) gửi yêu cầu đến Dịch vụ Truy vấn (Query Service). (Truy vấn bằng cách sử dụng mã băm - hash của tệp)
@@ -63,7 +63,7 @@ Cách tiếp cận này giúp giảm thời gian phản hồi cho các yêu cầ
 
 #### Sơ đồ AWS
 
-![High Level View](/images/high-level-view.drawio.png)
+![High Level View](/images/high-level-view-finalOfFinal.drawio.png)
 
 - **Tầng Web App (UI):**  
   Người dùng truy cập qua ALB, yêu cầu được phân phối đến các EC2 trong Auto Scaling Group. Tầng này chịu trách nhiệm giao diện và tiếp nhận request.  

@@ -48,7 +48,7 @@ Cách tiếp cận này giúp giảm thời gian phản hồi cho các yêu cầ
 ### 3. Kiến trúc hệ thống
 #### Tổng quan
 
-![High Level View 2](/images/high-level-view-2.drawio.png)
+![High Level View 2](/images/high-level-view-2-finalOfFinal.drawio.png)
 
 1. Người dùng gửi yêu cầu phân tích tệp.
 2. Máy chủ Web (Web Server) gửi yêu cầu đến Dịch vụ Truy vấn (Query Service). (Truy vấn bằng cách sử dụng mã băm - hash của tệp)

@@ -65,7 +65,7 @@ This hybrid approach reduces response times for repeated requests while ensuring
 
 #### Diagram for AWS
 
-![High Level View](/images/high-level-view.drawio.png)
+![High Level View](/images/high-level-view-finalOfFinal.drawio.png)
 
 - **Web App Layer (UI):**  
   Users access the system through the ALB, which distributes requests to EC2 instances in the Auto Scaling Group. This layer handles the interface and request intake.  

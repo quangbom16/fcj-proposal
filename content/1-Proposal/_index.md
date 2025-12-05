@@ -113,3 +113,25 @@ The system leverages the following key AWS services:
 
 Total		≈ $69.14 / month
 
+### 7. Risk Assessment
+#### Risk Matrix
+- **Malware Infection:** High impact, low probability.
+- **API Rate Limiting:** High impact, medium probability.
+- **Cost Overruns:** Medium impact, low probability.
+
+#### Mitigation Strategies
+- **Malware:** Strict network isolation (Private Subnets) and non-execution policies.
+- **API:** Caching analysis results in DynamoDB to minimize external calls.
+- **Cost:** AWS Budget alerts and Auto Scaling limits.
+
+#### Contingency Plans
+- Switch to "Cached Only" mode if external APIs fail.
+- Rapid infrastructure teardown via Terraform if costs spike.
+
+### 8. Expected Outcomes
+#### Technical Improvements
+- Automated scanning workflow replaces manual checks.
+- High availability achieved through AWS Auto Scaling.
+#### Long-term Value
+- Centralized threat database for instant hash lookups.
+- Reusable Terraform modules for future cloud projects.

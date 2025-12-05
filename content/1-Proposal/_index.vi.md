@@ -114,3 +114,28 @@ Hệ thống sử dụng các dịch vụ AWS chính sau:
 
 
 Tổng cộng: ≈ $69.14 / tháng
+
+Dưới đây là phiên bản tiếng Việt, bám sát định dạng mẫu bạn yêu cầu:
+
+### 7. Đánh giá Rủi ro (Risk Assessment)
+#### Ma trận Rủi ro
+- **Lây nhiễm Mã độc:** Tác động cao, xác suất thấp.
+- **Giới hạn API:** Tác động cao, xác suất trung bình.
+- **Vượt ngân sách:** Tác động trung bình, xác suất thấp.
+
+#### Chiến lược Giảm thiểu
+- **Mã độc:** Cô lập mạng nghiêm ngặt (Private Subnets) và không thực thi tệp trên server.
+- **API:** Lưu đệm (Cache) kết quả vào DynamoDB để giảm số lần gọi API bên ngoài.
+- **Chi phí:** Thiết lập cảnh báo ngân sách AWS và giới hạn tối đa cho Auto Scaling.
+
+#### Kế hoạch Dự phòng
+- Chuyển sang chế độ "Chỉ tra cứu Cache" nếu API bên thứ 3 bị lỗi.
+- Hủy bỏ hạ tầng nhanh chóng bằng Terraform nếu chi phí tăng đột biến.
+
+### 8. Kết quả Mong đợi (Expected Outcomes)
+#### Cải tiến Kỹ thuật
+Quy trình quét tự động thay thế hoàn toàn việc kiểm tra thủ công.
+Hệ thống đạt tính sẵn sàng cao nhờ AWS Auto Scaling.
+#### Giá trị Dài hạn
+Cơ sở dữ liệu tập trung giúp tra cứu nhanh các mối đe dọa đã biết.
+Mã nguồn hạ tầng (Terraform) có thể tái sử dụng cho các dự án tương lai.
